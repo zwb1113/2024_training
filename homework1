@@ -1,0 +1,61 @@
+package Scala_exercise
+
+import scala.collection.mutable.ListBuffer
+import scala.io.StdIn
+import scala.util.matching.Regex
+
+object homework1 {
+  def main(args: Array[String]): Unit = {
+    case class TextAnalyzer(words : String) {
+      val ary: Array[String] = words.split(" ")
+      val list = new ListBuffer[String]()
+      def wordCount(): Int = {
+        ary.length
+      }
+      def upperCaseLetters() : String = {
+        var j: Int = 0
+        val uppercase: Regex = new Regex("[A-Z]")
+        for (i <- ary.indices) {
+          uppercase.findFirstIn(ary(i)) match {
+            case Some(_) => j += 1
+            case None => j = j
+          }
+        }
+        println(j)
+        ""
+      }
+      def uniqueWordsSorted(): String = {
+        for (i <- ary.indices) {
+          if (!list.contains(ary(i))) {
+            list += ary(i)
+          }
+        }
+        val sortedList = list.sorted
+        for (i <- list.indices) print(sortedList(i) + ",")
+        ""
+      }
+      def containsWord(word: String): String = {
+        if (list.contains(word)) {
+          println("存在")
+        } else {
+          println("不存在")
+        }
+        ""
+      }
+    }
+    println("请输入英文语句（无标点）")
+    val words1: String = StdIn.readLine()
+    val TextAnalyzer1 = TextAnalyzer(words = words1)
+      println("单词数:" + TextAnalyzer1.wordCount())
+      print("大写字母数:")
+      println(TextAnalyzer1.upperCaseLetters())
+      print("不重复的单词列表:")
+      println(TextAnalyzer1.uniqueWordsSorted())
+      println("请输入查询单词(输入“结束”中止):")
+    var word1: String = StdIn.readLine()
+    while (word1!="结束") {
+      println(TextAnalyzer1.containsWord(word1) + "继续查询")
+      word1 = StdIn.readLine()
+    }
+  }
+}
